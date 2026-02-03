@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ApplyKazi Kenya - Find Jobs & Apply</title>
+<style>
+body { font-family: Arial, sans-serif; margin:0; background:#f4f6f8; color:#333; }
+header { background:#0a4db8; color:white; padding:20px; text-align:center; }
+nav { background:#083b8a; padding:10px; text-align:center; }
+nav a { color:white; margin:0 15px; text-decoration:none; font-weight:bold; }
+.container { max-width:1100px; margin:auto; padding:20px; }
+.search-box { background:white; padding:20px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.1); margin-bottom:20px; }
+.search-box input, .search-box select { padding:10px; margin-right:10px; }
+.search-box button { padding:10px 20px; background:#0a4db8; color:white; border:none; cursor:pointer; }
+.job-list { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:20px; }
+.job-card { background:white; padding:20px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
+.job-card h3 { color:#0a4db8; }
+.job-card button { background:green; color:white; border:none; padding:10px; cursor:pointer; margin-top:10px; }
+.apply-section { background:white; padding:20px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.1); margin-top:30px; }
+.apply-section input, .apply-section textarea, .apply-section select { width:100%; padding:10px; margin:8px 0; }
+.whatsapp-btn { display:inline-block; background:#25D366; color:white; padding:12px 20px; text-decoration:none; border-radius:5px; margin-top:10px; font-weight:bold; }
+footer { background:#083b8a; color:white; text-align:center; padding:15px; margin-top:40px; }
+.county-logo { width:24px; vertical-align:middle; margin-right:5px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ApplyKazi Kenya</h1>
+  <p>Find Jobs. Apply Online. Get Connected.</p>
+</header>
+
+<nav>
+  <a href="#">Home</a>
+  <a href="#jobs">Jobs</a>
+  <a href="#apply">Apply</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<div class="container">
+
+  <!-- Search -->
+  <div class="search-box">
+    <h2>Search Jobs in Kenya</h2>
+    <input type="text" id="jobSearch" placeholder="Job Title">
+    <select id="county-select">
+      <option value="">All Counties</option>
+      <option value="Nairobi">Nairobi</option>
+      <option value="Mombasa">Mombasa</option>
+      <option value="Kisumu">Kisumu</option>
+      <option value="Nakuru">Nakuru</option>
+      <!-- Add all 47 counties here -->
+    </select>
+    <button onclick="filterJobs()">Search</button>
+  </div>
+
+  <!-- Jobs List -->
+  <h2 id="jobs">Available Jobs</h2>
+  <div class="job-list" id="job-list">
+    <!-- Jobs will load dynamically -->
+  </div>
+
+  <!-- Apply Form -->
+  <div class="apply-section" id="apply">
+    <h2>Apply for Job</h2>
+    <p><b>Service Fee:</b> KES 140 (Pay via WhatsApp Request)</p>
+    <input type="text" placeholder="Full Name">
+    <input type="tel" placeholder="Phone Number">
+    <input type="email" placeholder="Email Address">
+    <input type="text" placeholder="Job Applying For">
+    <label>Upload CV (mandatory):</label>
+    <input type="file" required>
+    <label>Upload Certificates (optional):</label>
+    <input type="file">
+    <textarea placeholder="Additional Information"></textarea>
+    <p><b>Step 1:</b> Click WhatsApp button to request payment.</p>
+    <p><b>Step 2:</b> Pay KES 140 and send screenshot.</p>
+    <p><b>Step 3:</b> Your application will be processed.</p>
+    <a class="whatsapp-btn" href="https://wa.me/254101965027?text=Hello.%20I%20want%20to%20pay%20application%20fee%20for%20this%20job." target="_blank">Pay via WhatsApp</a>
+  </div>
+
+</div>
+
+<footer id="contact">
+  <p>WhatsApp: +254101965027 | Email: applykazi.kenya@gmail.com</p>
+  <p>© 2026 ApplyKazi Kenya. All Rights Reserved.</p>
+</footer>
+
+<script>
+// Sample data: 20 jobs per county (simplified here with 3 counties)
+const jobs = [
+  // Nairobi
+  {title:"Primary School Teacher", county:"Nairobi", category:"Teaching", salary:"KES 40,000", deadline:"25 Feb 2026", requirements:"CV (mandatory)", logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Nairobi_County_Coat_of_Arms.png/24px-Nairobi_County_Coat_of_Arms.png"},
+  {title:"Security Guard", county:"Nairobi", category:"Security", salary:"KES 22,000", deadline:"28 Feb 2026", requirements:"CV (mandatory)", logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Nairobi_County_Coat_of_Arms.png/24px-Nairobi_County_Coat_of_Arms.png"},
+  // Mombasa
+  {title:"Office Administrator", county:"Mombasa", category:"Office Jobs", salary:"KES 35,000", deadline:"20 Feb 2026", requirements:"CV (mandatory)", logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Coat_of_arms_of_Mombasa_County.png/24px-Coat_of_arms_of_Mombasa_County.png"},
+  {title:"Hotel Receptionist", county:"Mombasa", category:"Hospitality", salary:"KES 30,000", deadline:"22 Feb 2026", requirements:"CV (mandatory)", logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Coat_of_arms_of_Mombasa_County.png/24px-Coat_of_arms_of_Mombasa_County.png"},
+  // Kisumu
+  {title:"Nurse", county:"Kisumu", category:"Medical", salary:"KES 50,000", deadline:"26 Feb 2026", requirements:"CV (mandatory)", logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Kisumu_County_Coat_of_Arms.png/24px-Kisumu_County_Coat_of_Arms.png"},
+  {title:"Driver", county:"Kisumu", category:"Drivers", salary:"KES 25,000", deadline:"24 Feb 2026", requirements:"CV (mandatory)", logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Kisumu_County_Coat_of_Arms.png/24px-Kisumu_County_Coat_of_Arms.png"},
+  // Add more jobs per county to reach 20 per county
+];
+
+// Function to load jobs
+function displayJobs(list) {
+  const container = document.getElementById("job-list");
+  container.innerHTML = "";
+  list.forEach(job => {
+    const card = document.createElement("div");
+    card.className = "job-card";
+    card.innerHTML = `
+      <h3>${job.title}</h3>
+      <p><img class="county-logo" src="${job.logo}"> ${job.county}</p>
+      <p><b>Category:</b> ${job.category}</p>
+      <p><b>Salary:</b> ${job.salary}</p>
+      <p><b>Deadline:</b> ${job.deadline}</p>
+      <p><b>Requirements:</b> ${job.requirements}</p>
+      <button onclick="document.getElementById('apply').scrollIntoView()">Apply Now</button>
+    `;
+    container.appendChild(card);
+  });
+}
+
+// Filter jobs by county or title
+function filterJobs() {
+  const county = document.getElementById("county-select").value;
+  const search = document.getElementById("jobSearch").value.toLowerCase();
+  let filtered = jobs.filter(j => 
+    (county === "" || j.county === county) && 
+    (search === "" || j.title.toLowerCase().includes(search))
+  );
+  displayJobs(filtered);
+}
+
+// Initial display
+displayJobs(jobs);
+</script>
+
+</body>
+  </html>
